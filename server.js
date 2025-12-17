@@ -48,7 +48,6 @@ const OrderSchema = new mongoose.Schema({
 });
 const Order = mongoose.model('Order', OrderSchema);
 
-// --- 3. MIDDLEWARE ---
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')); 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -119,7 +118,7 @@ try {
 }
 
 // File: index.ejs
-app.get('/', (req, res) => res.render('home'));
+app.get('/', (req, res) => res.render('dashboard'));
 
 // File: canteens.ejs
 app.get('/canteens', async (req, res) => {
