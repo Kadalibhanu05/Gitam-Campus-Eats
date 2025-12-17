@@ -1,0 +1,143 @@
+<%- include('partials/header') %>
+
+<div class="container menu-container-pad" style="max-width: 800px;">
+    
+    <% if (locals.cart && cart.length > 0) { %>
+        <% 
+            let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        %>
+        
+        <div class="checkout-bar" style="
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            background: white; 
+            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1); 
+            padding: 15px 20px; 
+            z-index: 9999; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        ">
+            <div class="checkout-info" style="display: flex; align-items: center; gap: 15px;">
+                <div style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem;">
+                    <%= totalItems %>
+                </div>
+                <div>
+                    <div style="font-weight: bold; font-size: 1.2rem; color: #1e293b;">₹<%= totalPrice %></div>
+                    <div style="font-size: 0.8rem; color: #64748b; font-weight: 500;">Total Amount</div>
+                </div>
+            </div>
+            
+            <a href="/cart" class="checkout-btn" style="
+                background: #16a34a; 
+                color: white; 
+                padding: 12px 25px; 
+                border-radius: 8px; 
+                font-weight: bold; 
+                text-decoration: none;
+                box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.4);
+            ">
+                Proceed to Checkout &rarr;
+            </a>
+        </div>
+        
+        <div style="height: 100px;"></div> 
+    <% } %>
+    
+   <div class="card text-center" style="padding: 2rem; margin-bottom: 2rem; border-top: 5px solid #0ea5e9; position: relative;">
+    <h1 class="text-3xl font-bold"><%= canteen.name %></h1>
+    <p class="text-primary font-bold">Menu & Ordering</p>
+
+    <% if (locals.user && user.role === 'owner' && canteen.ownerId && user.id === canteen.ownerId.toString()) { %>
+    <a href="/edit-canteen/<%= canteen._id %>" style="
+        position: absolute; 
+        top: 20px; 
+        right: 20px; 
+        background: #f1f5f9; 
+        color: #475569; 
+        padding: 8px 15px; 
+        border-radius: 8px; 
+        font-size: 0.9rem; 
+        font-weight: bold; 
+        text-decoration: none; 
+        border: 1px solid #e2e8f0;
+    ">
+        + Add Items
+    </a>
+    <% } %>
+</div>
+
+    <% if (canteen.menu.length > 0) { %>
+        <div>
+            <% canteen.menu.forEach((item, index) => { %>
+                <div class="menu-item">
+                    
+                    <div>
+                        <h3 class="font-bold text-gray-800"><%= item.name %></h3>
+                        <div class="flex items-center">
+                            <span class="text-primary font-bold text-xl">₹<%= item.price %></span>
+                            <span id="price-calc-<%= index %>" class="price-calc"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center" style="gap: 1.5rem;">
+                        
+                        <div class="flex items-center" style="gap: 10px; background: #f8fafc; padding: 5px 10px; border-radius: 50px; border: 1px solid #e2e8f0;">
+                            <button type="button" class="qty-btn" onclick="updateQty('<%= index %>', -1, '<%= item.price %>')">-</button>
+                            <span id="qty-display-<%= index %>" class="qty-display">1</span>
+                            <button type="button" class="qty-btn" onclick="updateQty('<%= index %>', 1, '<%= item.price %>')">+</button>
+                        </div>
+
+                        <form action="/add-to-cart" method="POST" style="margin:0;">
+                            <input type="hidden" name="itemName" value="<%= item.name %>">
+                            <input type="hidden" name="itemPrice" value="<%= item.price %>">
+                            <input type="hidden" name="canteenId" value="<%= canteen._id %>">
+                            <input type="hidden" id="qty-input-<%= index %>" name="quantity" value="1">
+                            
+                            <button type="submit" class="btn-primary">Add</button>
+                        </form>
+                    </div>
+
+                </div>
+            <% }) %> </div>
+    <% } else { %>
+        <p class="text-center text-gray">No items available yet.</p>
+    <% } %>
+
+    <div class="text-center" style="margin-top: 2rem;">
+        <a href="/canteens" class="text-gray" style="text-decoration: underline;">&larr; Back to Canteens</a>
+    </div>
+
+</div>
+
+<script>
+    function updateQty(index, change, unitPrice) {
+        const display = document.getElementById('qty-display-' + index);
+        const input = document.getElementById('qty-input-' + index);
+        const calcSpan = document.getElementById('price-calc-' + index);
+        
+        let currentQty = parseInt(display.innerText);
+        let newQty = currentQty + change;
+
+        if (newQty < 1) newQty = 1;
+
+        // Update Numbers
+        display.innerText = newQty;
+        input.value = newQty;
+
+        // Update Calculation Text (e.g., * 2 = 240)
+        if (newQty > 1) {
+            let total = newQty * unitPrice;
+            calcSpan.innerText = `* ${newQty} = ₹${total}`;
+            calcSpan.classList.add('visible');
+        } else {
+            calcSpan.classList.remove('visible');
+        }
+    }
+</script>
+
+<%- include('partials/footer') %>

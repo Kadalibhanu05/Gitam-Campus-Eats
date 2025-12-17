@@ -1,0 +1,392 @@
+/*  1. VARIABLES & RESET */
+:root {
+    /* Gitam Green Palette */
+    --primary: #16a34a;       /* Green-600 */
+    --primary-dark: #15803d;  /* Green-700 */
+    --primary-light: #dcfce7; /* Green-100 */
+    --accent: #22c55e;        /* Green-500 */
+    
+    /* Neutrals */
+    --dark: #1e293b;          /* Slate-800 */
+    --gray: #64748b;          /* Slate-500 */
+    --light: #f8fafc;         /* Slate-50 */
+    --white: #ffffff;
+    
+    /* Effects */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --radius: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--light);
+    color: var(--dark);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 2. TYPOGRAPHY */
+h1, h2, h3, h4, h5 {
+    font-family: 'Poppins', sans-serif; /* Requires Google Font import in header */
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--dark);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+/* 3. NAVIGATION (Glassmorphism) */
+.navbar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--dark);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--gray);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+/* 4. BUTTONS & UI COMPONENTS */
+.btn, .btn-primary {
+    display: inline-block;
+    background: var(--primary);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.3);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn:hover, .btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid #fee2e2;
+    border-radius: 50px;
+    color: #ef4444;
+    background: white;
+    font-weight: 500;
+}
+
+.btn-secondary:hover {
+    background: #fef2f2;
+}
+
+.w-full { width: 100%; }
+
+/* Input Fields */
+input, select, textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+/* 5. LAYOUT & GRID */
+main { flex-grow: 1; }
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.grid {
+    display: grid;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* 6. CARDS & SECTIONS */
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: white;
+    text-align: center;
+    border-radius: 0 0 3rem 3rem; /* Unique curved bottom */
+    margin-bottom: 3rem;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #ffffff, #86efac);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Standard Card */
+.bg-white {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #f1f5f9;
+}
+
+.shadow-md { box-shadow: var(--shadow-md); }
+
+/* Canteen Cards specifically */
+.hover\:shadow-xl:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+    transition: all 0.3s ease;
+}
+
+/* 7. UTILITIES (Tailwind-like classes) */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.text-green-600 { color: var(--primary); }
+.text-gray-500 { color: var(--gray); }
+.text-gray-800 { color: var(--dark); }
+
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.p-8 { padding: 2rem; }
+
+.rounded-lg { border-radius: var(--radius); }
+.rounded-xl { border-radius: 1rem; }
+
+/* Flex Utilities */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+
+/* Hides content on mobile if needed */
+.hidden { display: none; }
+@media (min-width: 768px) {
+    .md\:flex { display: flex; }
+    .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* 8. MENU & CART  */
+
+/* Spacing for fixed navbar */
+.menu-container-pad {
+    padding-top: 6rem; /* Adjust based on navbar height */
+}
+
+/* Individual Menu Item Card */
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 16px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+/* Item Name & Price Group */
+.menu-item-info h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.25rem;
+}
+
+.menu-item-price {
+    font-weight: 600;
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+/* Quantity Counter (The pill shape) */
+.qty-wrapper {
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.qty-btn {
+    background: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    color: var(--primary);
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.qty-btn:hover {
+    background: var(--primary-light);
+}
+
+.qty-display {
+    padding: 0 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--dark);
+    min-width: 24px;
+    text-align: center;
+}
+
+/* "Add" Button */
+.btn-add {
+    background: var(--primary);
+    color: white;
+    padding: 8px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+    transition: all 0.2s;
+}
+
+.btn-add:hover {
+    background: var(--primary-dark);
+    box-shadow: 0 4px 8px rgba(22, 163, 74, 0.3);
+}
+
+/* Dynamic Price Calculation Text */
+.price-calc {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 600;
+    margin-left: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.price-calc.visible {
+    opacity: 1;
+}
+
+/* Sticky Checkout Bar */
+.checkout-bar {
+    font-family: 'Inter', sans-serif;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Checkout Button Animation */
+.checkout-btn {
+    transition: transform 0.2s;
+}
+.checkout-btn:active {
+    transform: scale(0.95);
+}
+
+/* Delete Button (Red X) */
+.btn-delete {
+    background: #fef2f2;
+    color: #ef4444;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #fee2e2;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-delete:hover {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+}

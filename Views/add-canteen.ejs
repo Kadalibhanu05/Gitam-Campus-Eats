@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+
+<div class="container mx-auto py-12 px-4 max-w-2xl">
+    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Add New Canteen</h1>
+
+        <form action="/add-canteen" method="POST" class="space-y-6">
+            
+            <div>
+                <label class="block font-bold text-gray-700 mb-2">Canteen Name</label>
+                <input type="text" name="canteenName" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-green-500 outline-none" placeholder="e.g. Gitam Main Canteen" required>
+            </div>
+
+            <div>
+                <label class="block font-bold text-gray-700 mb-4">Menu Items</label>
+                
+                <div id="menu-container" class="space-y-4">
+                    <div class="flex gap-4 items-start">
+                        <div class="flex-1">
+                            <input type="text" name="menuItems[0][name]" class="w-full border p-3 rounded-lg" placeholder="Item Name (e.g. Dosa)" required>
+                        </div>
+                        <div class="w-32">
+                            <input type="number" name="menuItems[0][price]" class="w-full border p-3 rounded-lg" placeholder="Price" required>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" onclick="addMenuItem()" class="mt-4 text-green-600 font-bold hover:text-green-700 flex items-center gap-2">
+                    <span class="text-2xl">+</span> Add Another Item
+                </button>
+            </div>
+
+            <button type="submit" class="w-full bg-gray-900 text-white py-4 rounded-xl font-bold text-lg hover:bg-black transition shadow-lg mt-8">
+                Create Canteen
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let itemIndex = 1; // Start from 1 because 0 is already there
+
+    function addMenuItem() {
+        const container = document.getElementById('menu-container');
+        
+        // Create a new div for the row
+        const newRow = document.createElement('div');
+        newRow.className = 'flex gap-4 items-start';
+        
+        // Insert the HTML for inputs (notice the index is updated!)
+        newRow.innerHTML = `
+            <div class="flex-1">
+                <input type="text" name="menuItems[${itemIndex}][name]" class="w-full border p-3 rounded-lg" placeholder="Item Name" required>
+            </div>
+            <div class="w-32">
+                <input type="number" name="menuItems[${itemIndex}][price]" class="w-full border p-3 rounded-lg" placeholder="Price" required>
+            </div>
+            <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2 py-3 hover:text-red-700">✕</button>
+        `;
+
+        container.appendChild(newRow);
+        itemIndex++; // Increase count for next time
+    }
+</script>
+
+<%- include('partials/footer') %>
