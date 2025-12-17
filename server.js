@@ -109,6 +109,15 @@ const isOwner = (req, res, next) => {
 
 // --- 4. ROUTES ---
 
+const fs = require('fs');
+const viewsPath = path.join(__dirname, 'views');
+try {
+    console.log("📂 CHECKING VIEWS FOLDER:", viewsPath);
+    console.log("📄 FILES FOUND:", fs.readdirSync(viewsPath));
+} catch (err) {
+    console.log("❌ ERROR READING VIEWS:", err.message);
+}
+
 // File: index.ejs
 app.get('/', (req, res) => res.render('home'));
 
