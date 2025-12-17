@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Eats | Gitam University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-inter">
+    
+    <header class="navbar-fixed">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            
+            <a href="/" class="brand-logo flex items-center gap-2 group">
+                <span class="text-3xl">🍏</span>
+                <span class="font-poppins font-bold text-2xl tracking-tight text-gray-900 group-hover:text-green-600 transition-colors">
+                   <span class="text-red-600">Gitam University</span></span> Campus<span class="text-green-600">Eats</span>
+                </span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-8 bg-white/80 px-8 py-2 rounded-full shadow-sm border border-gray-100 backdrop-blur-md">
+                <a href="/canteens" class="nav-link">Canteens</a>
+                <a href="/add-canteen" class="nav-link">Add Canteen</a>
+                <a href="/deliverers" class="nav-link">Deliverers</a>
+                <a href="/help" class="nav-link">Help</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <% if (user) { %>
+                    <div class="hidden md:flex flex-col items-end mr-2">
+                        <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Hello,</span>
+                        <span class="text-sm font-bold text-gray-800"><%= user.name %></span>
+                    </div>
+                    <a href="/logout" class="btn-secondary">
+                        Logout
+                    </a>
+                <% } else { %>
+                    <a href="/login" class="nav-link font-medium">Log In</a>
+                    <a href="/signup" class="btn-primary">
+                        Sign Up
+                    </a>
+                <% } %>
+            </div>
+        </nav>
+    </header>
+
+    <div class="h-24"></div> 
+    
+    <main>

@@ -1,0 +1,110 @@
+<%- include('partials/header') %>
+
+<div class="container" style="max-width: 800px; padding-top: 4rem;">
+    
+    <div class="card p-8">
+        <h1 class="text-3xl font-bold mb-2 text-center">Your Cart</h1>
+        <p class="text-gray text-center mb-8">Review your items before ordering.</p>
+        
+        <% if (locals.cart && cart.length > 0) { %>
+            
+            <div class="space-y-4 mb-8">
+                <% cart.forEach((item, index) => { %>
+                    <div class="menu-item" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #f1f5f9;">
+                        
+                        <div>
+                            <span class="font-bold text-gray-800 text-lg"><%= item.name %></span>
+                            <div class="text-sm text-gray-500">
+                                Unit Price: ₹<%= item.price %>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4" style="gap: 1.5rem;">
+                            
+                            <div class="flex items-center bg-gray-100 rounded-lg px-2 py-1">
+                                <form action="/update-cart-quantity" method="POST" style="margin:0;">
+                                    <input type="hidden" name="index" value="<%= index %>">
+                                    <input type="hidden" name="action" value="decrease">
+                                    <button type="submit" class="px-2 text-lg font-bold text-gray-600 hover:text-red-500">-</button>
+                                </form>
+
+                                <span class="mx-3 font-bold text-gray-800"><%= item.quantity %></span>
+
+                                <form action="/update-cart-quantity" method="POST" style="margin:0;">
+                                    <input type="hidden" name="index" value="<%= index %>">
+                                    <input type="hidden" name="action" value="increase">
+                                    <button type="submit" class="px-2 text-lg font-bold text-gray-600 hover:text-green-500">+</button>
+                                </form>
+                            </div>
+
+                            <span class="text-primary font-bold text-lg min-w-[60px] text-right">
+                                ₹<%= item.price * item.quantity %>
+                            </span>
+                            
+                            <form action="/update-cart-quantity" method="POST" style="margin:0;">
+                                <input type="hidden" name="index" value="<%= index %>">
+                                <input type="hidden" name="action" value="remove">
+                                <button type="submit" class="text-red-400 hover:text-red-600 font-semibold" title="Remove Item">
+                                    ✕
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <h3 class="text-xl font-bold mb-4 text-gray-800">Delivery Details</h3>
+                
+                <form action="/place-order" method="POST" class="space-y-4">
+                    
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Delivery Address (Hostel/Room)</label>
+                        <input type="text" name="address" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-green-500 outline-none" placeholder="e.g. Boys Hostel, Room 304" required>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Payment Method</label>
+                        <select name="paymentMethod" class="w-full border p-3 rounded-lg bg-white">
+                            <option value="Cash on Delivery">Cash on Delivery</option>
+                            <option value="UPI">UPI (Pay on Delivery)</option>
+                        </select>
+                    </div>
+
+                    <div class="flex justify-between items-center py-4 border-t border-gray-200 mt-4">
+                        <span class="text-xl font-bold text-gray-800">Total to Pay</span>
+                        <span class="text-3xl font-bold text-green-600">₹<%= total %></span>
+                        <input type="hidden" name="totalAmount" value="<%= total %>">
+                        <input type="hidden" name="canteenName" value="<%= cart[0].canteenName || 'Campus Canteen' %>">
+                        <input type="hidden" name="itemsJSON" value="<%= JSON.stringify(cart) %>">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <a href="/canteens" class="btn-secondary text-center py-3 rounded-lg font-bold border border-gray-300 hover:bg-gray-100 transition">
+                            &larr; Add More Items
+                        </a>
+                        <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-green-700 shadow-lg transition transform hover:scale-105">
+                            Confirm Order
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        <% } else { %>
+            
+            <div class="text-center py-12">
+                <div class="text-6xl mb-4">🛒</div>
+                <h3 class="text-xl font-bold text-gray-800">Your cart is empty</h3>
+                <p class="text-gray-500 mb-6">Looks like you haven't added anything yet.</p>
+                <a href="/canteens" class="inline-block bg-green-600 text-white py-3 px-8 rounded-full font-bold hover:bg-green-700 transition">
+                    Browse Canteens
+                </a>
+            </div>
+
+        <% } %>
+    </div>
+
+</div>
+
+<%- include('partials/footer') %>
