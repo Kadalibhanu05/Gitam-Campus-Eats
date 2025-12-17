@@ -110,7 +110,7 @@ const isOwner = (req, res, next) => {
 // --- 4. ROUTES ---
 
 // File: index.ejs
-app.get('/', (req, res) => res.render('index'));
+app.get('/', (req, res) => res.render('home'));
 
 // File: canteens.ejs
 app.get('/canteens', async (req, res) => {
